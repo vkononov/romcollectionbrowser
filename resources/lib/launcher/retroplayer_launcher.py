@@ -1,6 +1,6 @@
 
 
-from base_launcher import AbstractLauncher
+from .base_launcher import AbstractLauncher
 from util import Logutil as log
 from gamedatabase import *
 

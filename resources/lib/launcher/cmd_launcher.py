@@ -2,7 +2,7 @@
 import os, sys, re
 import json
 
-from base_launcher import AbstractLauncher
+from .base_launcher import AbstractLauncher
 import util
 from util import Logutil as log
 from util import __addon__

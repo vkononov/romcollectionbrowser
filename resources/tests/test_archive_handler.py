@@ -3,9 +3,8 @@ import os, sys
 
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib'))
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib', 'launcher'))
 
-from archive_handler import ArchiveHandler
+from launcher.archive_handler import ArchiveHandler
 
 
 class TestArchiveHandler(unittest.TestCase):

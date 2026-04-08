@@ -1,7 +1,7 @@
 from builtins import str
 import xbmc, xbmcgui
 import helper, util
-from base_launcher import AbstractLauncher
+from launcher.base_launcher import AbstractLauncher
 from util import *
 from gamedatabase import *
 from util import Logutil as log

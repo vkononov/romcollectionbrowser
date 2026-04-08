@@ -2,11 +2,10 @@ import os, shutil, sys
 import unittest
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib'))
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib', 'launcher'))
 
 from gamedatabase import GameDataBase, File, GameView, DataBaseObject
 from config import Config
-from cmd_launcher import Cmd_Launcher
+from launcher.cmd_launcher import Cmd_Launcher
 
 class TestLauncher_Cmd(unittest.TestCase):
 

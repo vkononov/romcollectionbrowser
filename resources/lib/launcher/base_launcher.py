@@ -7,7 +7,7 @@ import util
 from util import Logutil as log
 from util import __addon__
 from gamedatabase import *
-from archive_handler import ArchiveHandler
+from .archive_handler import ArchiveHandler
 
 import xbmc, xbmcgui, xbmcvfs
 
@@ -93,7 +93,8 @@ class AbstractLauncher(object):
         if not instance:
             log.debug("Instantiating launcher class {0}".format(launchername))
             try:
-                module = __import__(launchername.lower())
+                sub = launchername.lower()
+                module = __import__('launcher.' + sub, fromlist=[sub])
                 class_ = getattr(module, launchername)
                 instance = class_()
                 self._instantiated_launcher[launchername] = instance

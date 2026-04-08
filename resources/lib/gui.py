@@ -1011,7 +1011,7 @@ class UIGameDB(xbmcgui.WindowXML):
             #self.player.stoppedByRCB = True
             self.player.stop()
 
-        from base_launcher import AbstractLauncher
+        from launcher.base_launcher import AbstractLauncher
         AbstractLauncher(self.gdb, self.config, self).launch_game(gameId, selectedGame)
         log.info("End launchEmu")
 

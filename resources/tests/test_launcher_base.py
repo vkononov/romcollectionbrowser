@@ -5,12 +5,11 @@ import os, shutil, sys
 import unittest
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib'))
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'resources', 'lib', 'launcher'))
 
 from gamedatabase import GameDataBase, File, GameView, DataBaseObject
-from base_launcher import AbstractLauncher
-from retroplayer_launcher import RetroPlayer_Launcher
-from cmd_launcher import Cmd_Launcher
+from launcher.base_launcher import AbstractLauncher
+from launcher.retroplayer_launcher import RetroPlayer_Launcher
+from launcher.cmd_launcher import Cmd_Launcher
 from config import Config
 import xbmc
 

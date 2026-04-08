@@ -29,23 +29,18 @@ class GameNameUtil(object):
         return name
 
     def prepare_gamename_for_searchrequest(self, gamename):
-        """Strip out subtitles, additional info and sequel numbers
+        """Strip parenthesis/bracket release tags for API search (region, dump flags, etc.).
+
+        Subtitles, sequel numbers, and apostrophes are left intact so search strings match
+        database titles (e.g. possessive names).
+
         Args:
             gamename: e.g. My Game Name 2: Subtitle (1984) [cr TCS]
 
         Returns:
-            Game name without sequel number, subtitle and additional info, e.g. My Game Name
+            Name with trailing (…) and […] suffixes removed, e.g. My Game Name 2: Subtitle
         """
-        gamename = self.strip_addinfo_from_name(gamename)
-        gamename = self.strip_subtitle_from_name(gamename)
-
-        s = SequelNumberHandler()
-        index = s.get_sequel_no_index(gamename)
-        #check for > 0 as we don't want to strip numbers that the gamename begins with
-        if index > 0:
-            gamename = gamename[:index].strip()
-
-        return gamename
+        return self.strip_addinfo_from_name(gamename)
 
     def strip_subtitle_from_name(self, gamename):
         """Strip out subtitles
@@ -56,7 +51,7 @@ class GameNameUtil(object):
             Game name without subtitle, e.g. My Game Name
         """
         pattern = r"[^:,\-]*"  # Match anything until : , - [ or (
-        return re.search(pattern, gamename).group(0).strip().replace("'", "")
+        return re.search(pattern, gamename).group(0).strip()
 
     def strip_addinfo_from_name(self, gamename):
         """Strip out additional info
@@ -66,8 +61,8 @@ class GameNameUtil(object):
         Returns:
             Game name without any suffix, e.g. My Game Name
         """
-        pattern = r"[^[(]*"     # Match anything until : , - [ or (
-        return re.search(pattern, gamename).group(0).strip().replace("'", "")
+        pattern = r"[^[(]*"     # Match anything until ( or [
+        return re.search(pattern, gamename).group(0).strip()
 
 
 class SequelNumberHandler(object):

@@ -53,9 +53,9 @@ class Test_Offline_GDBI_Scraper(unittest.TestCase):
         results = gdbi.search("Yars' Revenge")
 
         self.assertEqual(1, len(results))
-        self.assertEqual("Yars Revenge", results[0]['id'])
-        self.assertEqual("Yars Revenge", results[0]['title'])
-        self.assertEqual(["Yars Revenge"], results[0]['SearchKey'])
+        self.assertEqual("Yars' Revenge", results[0]['id'])
+        self.assertEqual("Yars' Revenge", results[0]['title'])
+        self.assertEqual(["Yars' Revenge"], results[0]['SearchKey'])
 
 
     def test_search_MAME(self):
@@ -68,10 +68,9 @@ class Test_Offline_GDBI_Scraper(unittest.TestCase):
         results = gdbi.search("rbff2", "MAME")
         print (results)
 
-        self.assertEqual(3, len(results))
-        self.assertEqual("rbff1", results[0]['id'])
-        self.assertEqual("rbff2", results[1]['id'])
-        self.assertEqual("rbffspec", results[2]['id'])
+        # Search string is no longer truncated to "rbff", so only the rbff2 game line matches.
+        self.assertEqual(1, len(results))
+        self.assertEqual("rbff2", results[0]['id'])
 
 
     def test_search_Model2(self):

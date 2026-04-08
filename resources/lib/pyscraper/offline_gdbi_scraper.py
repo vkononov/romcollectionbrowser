@@ -79,8 +79,7 @@ class Offline_GDBI_Scraper(FileScraper):
             text = util.html_unescape(text)
             fh.close()
             for line in text.splitlines():
-                #HACK: Apostrophes are removed in prepare_gamename_for_searchrequest. So we also have to do it here.
-                result = re.search(pattern, line.replace("'", ""))
+                result = re.search(pattern, line)
                 if result:
                     gamename = result.groups()[0]
                     results.append({'id': gamename,

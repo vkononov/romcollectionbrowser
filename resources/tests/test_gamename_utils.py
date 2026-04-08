@@ -50,25 +50,25 @@ class TestGamenameUtils(unittest.TestCase):
         result = gnu.prepare_gamename_for_searchrequest("Chrono Trigger [cr TCS] (USA)")
         self.assertEqual(result, "Chrono Trigger")
         result = gnu.prepare_gamename_for_searchrequest("Crash Bandicoot 2: Cortex Strikes Back")
-        self.assertEqual(result, "Crash Bandicoot")
+        self.assertEqual(result, "Crash Bandicoot 2: Cortex Strikes Back")
         result = gnu.prepare_gamename_for_searchrequest("Crash Bandicoot 2")
-        self.assertEqual(result, "Crash Bandicoot")
+        self.assertEqual(result, "Crash Bandicoot 2")
         result = gnu.prepare_gamename_for_searchrequest("Crash Bandicoot II: Cortex Strikes Back")
-        self.assertEqual(result, "Crash Bandicoot")
+        self.assertEqual(result, "Crash Bandicoot II: Cortex Strikes Back")
         result = gnu.prepare_gamename_for_searchrequest("Crash Bandicoot II")
-        self.assertEqual(result, "Crash Bandicoot")
+        self.assertEqual(result, "Crash Bandicoot II")
         result = gnu.prepare_gamename_for_searchrequest("Super Mario World 2 - Yoshi's Island (USA)")
-        self.assertEqual(result, "Super Mario World")
+        self.assertEqual(result, "Super Mario World 2 - Yoshi's Island")
         result = gnu.prepare_gamename_for_searchrequest("Madden NFL '97 (USA)")
-        self.assertEqual(result, "Madden NFL")
+        self.assertEqual(result, "Madden NFL '97")
         result = gnu.prepare_gamename_for_searchrequest("Legend of Zelda, The - A Link to the Past (USA)")
-        self.assertEqual(result, "Legend of Zelda")
+        self.assertEqual(result, "Legend of Zelda, The - A Link to the Past")
         result = gnu.prepare_gamename_for_searchrequest("FIFA '98: Road to Worldcup (1998) [Electronic Arts]")
-        self.assertEqual("FIFA", result)
+        self.assertEqual(result, "FIFA '98: Road to Worldcup")
         result = gnu.prepare_gamename_for_searchrequest("FIFA '98 (1998) [Electronic Arts]")
-        self.assertEqual("FIFA", result)
+        self.assertEqual(result, "FIFA '98")
         result = gnu.prepare_gamename_for_searchrequest("FIFA '98: Road to Worldcup")
-        self.assertEqual("FIFA", result)
+        self.assertEqual(result, "FIFA '98: Road to Worldcup")
         result = gnu.prepare_gamename_for_searchrequest("3 Ninjas kick back")
         self.assertEqual("3 Ninjas kick back", result)
 
@@ -76,7 +76,7 @@ class TestGamenameUtils(unittest.TestCase):
     def test_strip_addinfo_from_name(self):
         gnu = GameNameUtil()
         result = gnu.strip_addinfo_from_name("FIFA '98 (1998) [Electronic Arts]")
-        self.assertEqual("FIFA 98", result)
+        self.assertEqual("FIFA '98", result)
         #subtitles should be kept intact
         result = gnu.strip_addinfo_from_name("Chuck Rock 2: Son of Chuck")
         self.assertEqual("Chuck Rock 2: Son of Chuck", result)
@@ -98,7 +98,7 @@ class TestGamenameUtils(unittest.TestCase):
         self.assertEqual("Chuck Rock 2", result)
         # additional info should be kept intact
         result = gnu.strip_subtitle_from_name("FIFA '98 (1998) [Electronic Arts]")
-        self.assertEqual("FIFA 98 (1998) [Electronic Arts]", result)
+        self.assertEqual("FIFA '98 (1998) [Electronic Arts]", result)
 
 
     def test_remove_sequel_no_one(self):

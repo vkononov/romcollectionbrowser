@@ -91,6 +91,8 @@ class Matcher(object):
         return resultIndex
 
     def matchGamename(self, results, gamenameFromFile):
+        gnu = GameNameUtil()
+        gamename_from_file_nfc = gnu.normalize_unicode_nfc(gamenameFromFile)
         for idx, result in enumerate(results):
             try:
                 # Check if the result has the correct platform (if needed)
@@ -102,8 +104,8 @@ class Matcher(object):
 
                 searchKey = self.resolveParseResult(result, 'SearchKey')
                 # keep it for later reference
-                searchkey_orig = searchKey
-                gamename_orig = gamenameFromFile
+                searchkey_orig = gnu.normalize_unicode_nfc(searchKey)
+                gamename_orig = gamename_from_file_nfc
 
                 # if no searchkey is specified first result is valid (1 file per game scenario)
                 if searchkey_orig == '':
@@ -116,7 +118,6 @@ class Matcher(object):
                     return result
 
                 # normalize name and searchkey before comparison
-                gnu = GameNameUtil()
                 gamename_normalized = gnu.normalize_name(gamename_orig)
                 searchkey_normalized = gnu.normalize_name(searchkey_orig)
                 log.info("Try normalized names. Comparing %s with %s" % (gamename_normalized, searchkey_normalized))
@@ -125,7 +126,7 @@ class Matcher(object):
                     return result
 
                 #strip additional info from gamename
-                gamename_stripped = gnu.strip_addinfo_from_name(gamename_orig)
+                gamename_stripped = gnu.strip_addinfo_from_name(gamenameFromFile)
                 gamename_stripped = gnu.normalize_name(gamename_stripped)
                 log.info("Try with stripped additional info. Comparing %s with %s" % (
                     gamename_stripped, searchkey_normalized))

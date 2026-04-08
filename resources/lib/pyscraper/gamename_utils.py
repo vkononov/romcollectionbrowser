@@ -1,5 +1,6 @@
 
 import re
+import unicodedata
 
 # Colon lookalikes allowed in filenames where ASCII ':' is invalid (e.g. Windows).
 # Normalized to ':' before API search so substring matches DB titles (e.g. MobyGames).
@@ -12,6 +13,17 @@ _COLON_SUBSTITUTE_FOR_SEARCH = str.maketrans({
 class GameNameUtil(object):
     """This object provides methods for game name manipulations"""
 
+    def normalize_unicode_nfc(self, name):
+        """Use composed Unicode (NFC) so names match across sources.
+
+        File names on macOS are often NFD (e.g. e + combining acute); APIs and
+        JSON typically use NFC (é). Without this, normalize_name's removal of
+        non-word characters can drop combining marks and break matching.
+        """
+        if not name:
+            return name
+        return unicodedata.normalize('NFC', name)
+
     def normalize_name(self, name):
         """removes any special characters from gamenames
             removes substrings that may not be part of the name (The, A, and, ...)
@@ -19,6 +31,7 @@ class GameNameUtil(object):
             removes trailing sequel no one
             converts to upper char
         """
+        name = self.normalize_unicode_nfc(name)
         name = name.upper()
 
         # replace roman numerals with digits, remove trailing sequel no one (" 1" or " I")
@@ -49,6 +62,7 @@ class GameNameUtil(object):
         """
         if not gamename:
             return gamename
+        gamename = self.normalize_unicode_nfc(gamename)
         gamename = gamename.translate(_COLON_SUBSTITUTE_FOR_SEARCH)
         return self.strip_addinfo_from_name(gamename)
 

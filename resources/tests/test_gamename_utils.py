@@ -10,6 +10,7 @@ from pyscraper.gamename_utils import SequelNumberHandler, GameNameUtil
 import util as util
 
 import unittest
+import unicodedata
 
 
 class TestGamenameUtils(unittest.TestCase):
@@ -41,6 +42,20 @@ class TestGamenameUtils(unittest.TestCase):
         x = gnu.normalize_name("Prince of Persia 1")
         self.assertEqual('PRINCEOFPERSIA', x)
 
+    def test_normalize_name_same_for_nfd_and_nfc(self):
+        gnu = GameNameUtil()
+        title_nfc = "Astérix and the Great Rescue"
+        title_nfd = unicodedata.normalize("NFD", title_nfc)
+        self.assertNotEqual(title_nfc, title_nfd)
+        self.assertEqual(
+            gnu.normalize_name(title_nfc),
+            gnu.normalize_name(title_nfd),
+        )
+
+    def test_normalize_unicode_nfc(self):
+        gnu = GameNameUtil()
+        nfd = unicodedata.normalize("NFD", "Astérix")
+        self.assertEqual(gnu.normalize_unicode_nfc(nfd), "Astérix")
 
     def test_prepare_gamename_for_webrequest(self):
         gnu = GameNameUtil()

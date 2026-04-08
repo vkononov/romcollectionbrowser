@@ -231,6 +231,18 @@ def convertToUnicodeString(s, encoding='utf-8'):
     return s
 
 
+def path_exists(path):
+    """True if path exists for local files or Kodi VFS (nfs://, smb://, special://, ...).
+
+    os.path.exists only sees the real filesystem; Clean Database and similar checks
+    must use xbmcvfs so remote sources are not treated as missing.
+    """
+    if not path:
+        return False
+    path = convertToUnicodeString(path)
+    return bool(xbmcvfs.exists(path))
+
+
 def getEmuAutoConfigPath():
     settings = getSettings()
     path = settings.getSetting(SETTING_RCB_EMUAUTOCONFIGPATH)

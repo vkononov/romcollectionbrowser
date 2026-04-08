@@ -1099,7 +1099,7 @@ class UIGameDB(xbmcgui.WindowXML):
                 count = count + 1
                 message = "%s (%i / %i)" % (util.localize(32107), count, progressDialog2.itemCount)
                 progressDialog2.writeMsg(message, count)
-                if os.path.exists(items[File.COL_NAME]) != True:
+                if not util.path_exists(items[File.COL_NAME]):
                     if items[File.COL_fileTypeId] == 0:
                         self.deleteGame(items[File.COL_parentId])
                     else:

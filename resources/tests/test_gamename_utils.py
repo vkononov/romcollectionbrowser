@@ -71,6 +71,13 @@ class TestGamenameUtils(unittest.TestCase):
         self.assertEqual(result, "FIFA '98: Road to Worldcup")
         result = gnu.prepare_gamename_for_searchrequest("3 Ninjas kick back")
         self.assertEqual("3 Ninjas kick back", result)
+        # Colon substitutes (filename-safe) → ASCII ':' for API substring match
+        result = gnu.prepare_gamename_for_searchrequest(
+            "Nickelodeon\uA789 Aaahh!!! Real Monsters (USA)")
+        self.assertEqual(result, "Nickelodeon: Aaahh!!! Real Monsters")
+        result = gnu.prepare_gamename_for_searchrequest(
+            "Nickelodeon\uFF1A Aaahh!!! Real Monsters")
+        self.assertEqual(result, "Nickelodeon: Aaahh!!! Real Monsters")
 
 
     def test_strip_addinfo_from_name(self):

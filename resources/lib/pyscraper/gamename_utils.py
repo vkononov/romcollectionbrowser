@@ -1,6 +1,13 @@
 
 import re
 
+# Colon lookalikes allowed in filenames where ASCII ':' is invalid (e.g. Windows).
+# Normalized to ':' before API search so substring matches DB titles (e.g. MobyGames).
+_COLON_SUBSTITUTE_FOR_SEARCH = str.maketrans({
+    '\ua789': ':',  # MODIFIER LETTER COLON ꞉
+    '\uff1a': ':',  # FULLWIDTH COLON ：
+})
+
 
 class GameNameUtil(object):
     """This object provides methods for game name manipulations"""
@@ -40,6 +47,9 @@ class GameNameUtil(object):
         Returns:
             Name with trailing (…) and […] suffixes removed, e.g. My Game Name 2: Subtitle
         """
+        if not gamename:
+            return gamename
+        gamename = gamename.translate(_COLON_SUBSTITUTE_FOR_SEARCH)
         return self.strip_addinfo_from_name(gamename)
 
     def strip_subtitle_from_name(self, gamename):

@@ -45,6 +45,8 @@ Only Tested on Windows.
 * create scrape result files (missing artwork, missing descriptions, possible mismatches)<br>
 * import options dialog: asks for most important import options on every game import</ul>
 
+**Game titles with a colon (`:`).** On some systems (e.g. Windows) `:` is not allowed in file or folder names, but databases still store titles like `Nickelodeon: Aaahh!!! Real Monsters`. Replacing `:` with ` - ` in the filename can break scraper searches that match a substring of the real title. For those cases you can use a Unicode colon *lookalike* in the name instead; before calling scraper APIs, RCB maps these to ASCII `:` so the query matches the database: **modifier letter colon** (U+A789, looks like `:`) and **fullwidth colon** (U+FF1A, `：`).
+
 ### Game Browsing
 * filter games by console, genre, year, publisher and first character<br>
 * automatic video playback in video window<br>

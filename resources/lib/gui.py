@@ -871,7 +871,7 @@ class UIGameDB(xbmcgui.WindowXML):
             item.setProperty('romcollection', romCollection.name)
             item.setProperty('console', romCollection.name)
             item.setProperty('gameId', str(game[GameView.COL_ID]))
-            item.setProperty('plot', game[GameView.COL_description])
+            item.setProperty('plot', util.format_game_plot_for_display(game[GameView.COL_description]))
             item.setProperty('playcount', str(game[GameView.COL_launchCount]))
             item.setProperty('originalTitle', game[GameView.COL_originalTitle])
             item.setProperty('alternateTitle', game[GameView.COL_alternateTitle])

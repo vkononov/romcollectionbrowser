@@ -1,6 +1,14 @@
 from builtins import str
 from builtins import object
 import os
+import re
+
+try:
+    import html as _html_stdlib
+except ImportError:
+    _html_stdlib = None
+
+from html.parser import HTMLParser
 
 import xbmc, xbmcaddon, xbmcvfs
 
@@ -74,6 +82,7 @@ SETTING_RCB_EMUAUTOCONFIGPATH = 'rcb_pathToEmuAutoConfig'
 SETTING_RCB_MAXNUMGAMESTODISPLAY = 'rcb_maxNumGames'
 SETTING_RCB_COLORFILE = 'rcb_colorfile'
 SETTING_RCB_SHOWNAVIGATIONHINT = 'rcb_showNavigationHint'
+SETTING_RCB_PLOT_STRIP_HTML = 'rcb_plotStripHtml'
 
 SCRAPING_OPTION_AUTO_ACCURATE = 0
 SCRAPING_OPTION_INTERACTIVE = 1
@@ -126,9 +135,13 @@ html_unescape_table = {
 }
 
 def html_unescape(text):
+    if text is None:
+        return ''
+    text = convertToUnicodeString(text)
+    if _html_stdlib is not None:
+        return _html_stdlib.unescape(text)
     for key in list(html_unescape_table.keys()):
         text = text.replace(key, html_unescape_table[key])
-
     return text
 
 
@@ -143,10 +156,123 @@ html_kodi_table = {
 
 
 def html_to_kodi(text):
+    """Legacy: basic tag replace. Prefer html_plot_to_kodi_labels or format_game_plot_for_display."""
     for key in list(html_kodi_table.keys()):
         text = text.replace(key, html_kodi_table[key])
 
     return text
+
+
+class _StripPlotHTMLParser(HTMLParser):
+    """Collect visible text; approximate paragraph breaks after block-level tags."""
+
+    _BLOCK_BREAK = frozenset({
+        'p', 'div', 'li', 'tr', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
+        'section', 'article', 'blockquote', 'pre',
+    })
+
+    def __init__(self):
+        HTMLParser.__init__(self, convert_charrefs=True)
+        self._chunks = []
+
+    def handle_starttag(self, tag, attrs):
+        t = tag.lower()
+        if t == 'br':
+            self._chunks.append('\n')
+        elif t in self._BLOCK_BREAK:
+            self._chunks.append('\n')
+
+    def handle_endtag(self, tag):
+        t = tag.lower()
+        if t in self._BLOCK_BREAK:
+            self._chunks.append('\n')
+
+    def handle_data(self, data):
+        self._chunks.append(data)
+
+    def get_text(self):
+        s = ''.join(self._chunks)
+        s = re.sub(r'[ \t\f\v]+', ' ', s)
+        s = re.sub(r'\n{3,}', '\n\n', s)
+        return s.strip()
+
+
+def strip_html_plot(text):
+    """Turn HTML (e.g. from NFO plot) into plain text for Kodi labels."""
+    if not text:
+        return ''
+    raw = html_unescape(text)
+    parser = _StripPlotHTMLParser()
+    try:
+        parser.feed(raw)
+        parser.close()
+    except Exception:
+        return re.sub(r'<[^>]+>', ' ', raw)
+    return parser.get_text()
+
+
+def _strip_plot_crlf_edges(t):
+    """Remove leading/trailing [CR] so plots do not start or end with a blank line."""
+    t = re.sub(r'^(\s*\[CR\]\s*)+', '', t)
+    t = re.sub(r'(\s*\[CR\]\s*)+$', '', t)
+    return t.strip()
+
+
+def html_plot_to_kodi_labels(text):
+    """Map common HTML to Kodi formatting ([B],[I],[CR]). Unknown tags removed.
+
+    Kodi skins use label/textbox formatting tags, not a full HTML engine.
+    """
+    if not text:
+        return ''
+    t = html_unescape(text)
+    # Anchor: keep link text only (URLs in plot are long and not clickable in labels)
+    t = re.sub(r'(?is)<a\s[^>]*>(.*?)</a>', r'\1', t)
+    # Line breaks (single) inside a paragraph
+    t = re.sub(r'(?i)<br\s*/?>', '[CR]', t)
+    # Paragraphs: use double [CR] between blocks (visible gap). Opening <p> must not add a leading break.
+    t = re.sub(r'(?is)</p\s*>\s*<p(?:\s[^>]*)?>', '[CR][CR]', t)
+    t = re.sub(r'(?is)^\s*<p(?:\s[^>]*)?>', '', t)
+    t = re.sub(r'(?is)</p\s*>', '[CR][CR]', t)
+    t = re.sub(r'(?is)<p(?:\s[^>]*)?>', '', t)
+    # Emphasis (including semantic HTML from scrapers)
+    pairs = (
+        ('em', '[I]', '[/I]'),
+        ('i', '[I]', '[/I]'),
+        ('strong', '[B]', '[/B]'),
+        ('b', '[B]', '[/B]'),
+    )
+    for tag, o, c in pairs:
+        t = re.sub(r'</%s\s*>' % tag, c, t, flags=re.IGNORECASE)
+        t = re.sub(r'<%s\s*>' % tag, o, t, flags=re.IGNORECASE)
+    # Legacy simple tags
+    t = html_to_kodi(t)
+    # Drop any remaining markup
+    t = re.sub(r'<[^>]+>', '', t)
+    # Collapse 3+ consecutive line breaks to at most a paragraph gap (double [CR])
+    t = re.sub(r'(?:\s*\[CR\]\s*){3,}', '[CR][CR]', t)
+    return _strip_plot_crlf_edges(t)
+
+
+def format_game_plot_for_display(text, strip_html_override=None):
+    """Prepare stored description for Kodi listitem/skin properties.
+
+    strip_html_override: if True/False, force plain or Kodi formatting; if None, use addon setting.
+    """
+    if not text:
+        return ''
+    if strip_html_override is True:
+        return strip_html_plot(text)
+    if strip_html_override is False:
+        return html_plot_to_kodi_labels(text)
+    if ISTESTRUN:
+        return html_plot_to_kodi_labels(text)
+    try:
+        if __addon__.getSetting(SETTING_RCB_PLOT_STRIP_HTML).upper() == 'TRUE':
+            return strip_html_plot(text)
+    except Exception:
+        pass
+    return html_plot_to_kodi_labels(text)
 
 
 def joinPath(part1, *parts):

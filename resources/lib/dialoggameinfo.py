@@ -124,7 +124,7 @@ class UIGameInfoView(xbmcgui.WindowXMLDialog):
         item.setProperty('romcollection', romCollection.name)
         item.setProperty('console', romCollection.name)
         item.setProperty('gameId', str(game[GameView.COL_ID]))
-        item.setProperty('plot', game[GameView.COL_description])
+        item.setProperty('plot', util.format_game_plot_for_display(game[GameView.COL_description]))
         item.setProperty('developer', game[GameView.COL_developer])
         item.setProperty('publisher', game[GameView.COL_publisher])
         item.setProperty('year', game[GameView.COL_year])

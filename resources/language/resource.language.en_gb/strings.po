@@ -856,6 +856,10 @@ msgctxt "#32433"
 msgid "Open Addon Settings"
 msgstr ""
 
+msgctxt "#32434"
+msgid "Show game plots as plain text (strip HTML)"
+msgstr ""
+
 msgctxt "#32501"
 msgid "Rescrape selected Game"
 msgstr ""

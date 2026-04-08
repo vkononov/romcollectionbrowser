@@ -142,7 +142,9 @@ class Main(object):
                 xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Title" % count, game[GameView.COL_NAME])
                 xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Thumb" % count, thumb)
                 xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Fanart" % count, fanart)
-                xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Plot" % count, game[GameView.COL_description])
+                xbmcgui.Window(10000).setProperty(
+                    "MostPlayedROM.%d.Plot" % count,
+                    util.format_game_plot_for_display(game[GameView.COL_description]))
                 xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Year" % count, game[GameView.COL_year])
                 xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Publisher" % count, game[GameView.COL_publisher])
                 xbmcgui.Window(10000).setProperty("MostPlayedROM.%d.Developer" % count, game[GameView.COL_developer])

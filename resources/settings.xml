@@ -33,6 +33,7 @@
 		<setting id="rcb_showEntryAllConsoles" label="32320" type="bool" default="true"/>
 		<setting id="rcb_showScrollbars" label="32331" type="bool" default="false"/>
 		<setting id="rcb_showNavigationHint" label="32332" type="bool" default="true"/>
+		<setting id="rcb_plotStripHtml" label="32434" type="bool" default="false"/>
 	</category>
 	
 	<category label="32326">

@@ -860,6 +860,10 @@ msgctxt "#32434"
 msgid "Show game plots as plain text (strip HTML)"
 msgstr ""
 
+msgctxt "#32903"
+msgid "Ignore Articles When Sorting"
+msgstr "Ignore Articles When Sorting"
+
 msgctxt "#32501"
 msgid "Rescrape selected Game"
 msgstr ""

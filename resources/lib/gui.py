@@ -838,7 +838,7 @@ class UIGameDB(xbmcgui.WindowXML):
         timestamp1 = time.process_time()
 
         likeStatement = self._getGamesListQueryStatement()
-        order_by = "ORDER BY %s COLLATE NOCASE %s" %(self.sortMethod, self.sortDirection)
+        order_by = util.sql_game_list_order_by(self.sortMethod, self.sortDirection)
         maxNumGames = self._getMaxGamesToDisplay()
 
         games = GameView(self.gdb).getFilteredGames(self.selectedConsoleId, self.selectedGenreId, self.selectedYearId,

@@ -856,6 +856,10 @@ msgctxt "#32433"
 msgid "Open Addon Settings"
 msgstr "Addon Settings öffnen"
 
+msgctxt "#32903"
+msgid "Ignore Articles When Sorting"
+msgstr "Artikel beim Sortieren ignorieren"
+
 msgctxt "#32501"
 msgid "Rescrape selected Game"
 msgstr "Spiel erneut einlesen"

@@ -5,6 +5,7 @@
 		<setting id="rcb_logLevel" label="32302" type="labelenum" values="ERROR|WARNING|INFO|DEBUG" default="INFO"/>
 		<setting id="rcb_saveViewStateOnExit" label="32304" type="bool" default="true"/>
 		<setting id="rcb_saveViewStateOnLaunchEmu" label="32305" type="bool" default="true"/>
+		<setting id="rcb_ignoreArticlesWhenSorting" label="32903" type="bool" default="true"/>
 		
 		<setting id="rcb_view_mode" visible="false" value="" type="text"/>
 		<setting id="rcb_launchOnStartup" visible="false" type="bool" default="false"/>

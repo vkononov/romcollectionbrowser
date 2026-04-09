@@ -83,6 +83,7 @@ SETTING_RCB_MAXNUMGAMESTODISPLAY = 'rcb_maxNumGames'
 SETTING_RCB_COLORFILE = 'rcb_colorfile'
 SETTING_RCB_SHOWNAVIGATIONHINT = 'rcb_showNavigationHint'
 SETTING_RCB_PLOT_STRIP_HTML = 'rcb_plotStripHtml'
+SETTING_RCB_IGNORE_ARTICLES_WHEN_SORTING = 'rcb_ignoreArticlesWhenSorting'
 
 SCRAPING_OPTION_AUTO_ACCURATE = 0
 SCRAPING_OPTION_INTERACTIVE = 1
@@ -254,6 +255,43 @@ def html_plot_to_kodi_labels(text):
     return _strip_plot_crlf_edges(t)
 
 
+def ignore_articles_when_sorting_games():
+    """Match Kodi-style title sort: skip leading The / A / An when sorting by game name."""
+    if ISTESTRUN:
+        return True
+    try:
+        s = getSettings().getSetting(SETTING_RCB_IGNORE_ARTICLES_WHEN_SORTING)
+        if s == '':
+            return True
+        return s.upper() == 'TRUE'
+    except Exception:
+        return True
+
+
+def sql_game_list_order_by(sort_column, sort_direction, ignore_articles=None):
+    """Build ORDER BY clause for GameView queries. When sorting by name and ignore_articles is
+    true, strip English articles for ordering (secondary sort by full name for stability).
+    """
+    if sort_direction is None or str(sort_direction).strip() == '':
+        sort_direction = 'ASC'
+    sort_direction = str(sort_direction).upper()
+    if sort_direction not in ('ASC', 'DESC'):
+        sort_direction = 'ASC'
+    if ignore_articles is None:
+        ignore_articles = ignore_articles_when_sorting_games()
+    if ignore_articles and sort_column == 'name':
+        sort_key = (
+            "(CASE "
+            "WHEN LOWER(TRIM(name)) GLOB 'the *' THEN TRIM(SUBSTR(TRIM(name), 5)) "
+            "WHEN LOWER(TRIM(name)) GLOB 'a *' THEN TRIM(SUBSTR(TRIM(name), 3)) "
+            "WHEN LOWER(TRIM(name)) GLOB 'an *' THEN TRIM(SUBSTR(TRIM(name), 4)) "
+            "ELSE TRIM(name) END)"
+        )
+        return "ORDER BY %s COLLATE NOCASE %s, name COLLATE NOCASE %s" % (
+            sort_key, sort_direction, sort_direction)
+    return "ORDER BY %s COLLATE NOCASE %s" % (sort_column, sort_direction)
+
+
 def format_game_plot_for_display(text, strip_html_override=None):
     """Prepare stored description for Kodi listitem/skin properties.
 
@@ -268,7 +306,7 @@ def format_game_plot_for_display(text, strip_html_override=None):
     if ISTESTRUN:
         return html_plot_to_kodi_labels(text)
     try:
-        if __addon__.getSetting(SETTING_RCB_PLOT_STRIP_HTML).upper() == 'TRUE':
+        if getSettings().getSetting(SETTING_RCB_PLOT_STRIP_HTML).upper() == 'TRUE':
             return strip_html_plot(text)
     except Exception:
         pass

@@ -880,8 +880,7 @@ class DBUpdate(object):
         log.info("filemask: %s" % filemask)
 
         dirsLocal, filesLocal = xbmcvfs.listdir(dirname)
-        log.info("xbmcvfs dirs: %s" % dirs)
-        log.info("xbmcvfs files: %s" % filesLocal)
+        log.debug("xbmcvfs listdir %s: %d dirs, %d files" % (dirname, len(dirsLocal), len(filesLocal)))
 
         for directory in dirsLocal:
             if isinstance(directory, str):

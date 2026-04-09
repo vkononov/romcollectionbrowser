@@ -306,7 +306,9 @@ def format_game_plot_for_display(text, strip_html_override=None):
     if ISTESTRUN:
         return html_plot_to_kodi_labels(text)
     try:
-        if getSettings().getSetting(SETTING_RCB_PLOT_STRIP_HTML).upper() == 'TRUE':
+        # Use module __addon__ here, not getSettings(): a fresh Addon() per row in showGames()
+        # makes Kodi reload addon setting definitions hundreds of times (log spam, slowdown).
+        if __addon__.getSetting(SETTING_RCB_PLOT_STRIP_HTML).upper() == 'TRUE':
             return strip_html_plot(text)
     except Exception:
         pass

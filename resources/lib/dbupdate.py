@@ -214,7 +214,7 @@ class DBUpdate(object):
                     foldername = self.getFoldernameFromRomFilename(filename)
 
                     results, artScrapers = self.useSingleScrapers(romCollection, filename, gamenameFromFile,
-                                                                  progDialogRCHeader, fileidx + 1)
+                                                                  progDialogRCHeader, fileidx + 1, isRescrape)
 
                     if len(results) == 0:
                         # lastgamename = ""
@@ -387,7 +387,8 @@ class DBUpdate(object):
             log.warn("Error when merging results: %s" % e)
             return results
 
-    def useSingleScrapers(self, romCollection, romFile, gamenameFromFile, progDialogRCHeader, fileCount):
+    def useSingleScrapers(self, romCollection, romFile, gamenameFromFile, progDialogRCHeader, fileCount,
+                          isRescrape=False):
         """Scrape site for game metadata
 
         Args:
@@ -396,6 +397,7 @@ class DBUpdate(object):
             gamenameFromFile:
             progDialogRCHeader:
             fileCount:
+            isRescrape: If True (Rescrape game / selection), ignore Prefer local NFO and use configured scrapers.
 
         Returns:
             dict for the game result:
@@ -435,7 +437,13 @@ class DBUpdate(object):
             #first check if a local nfo file is available
             nfoscraper = NFO_Scraper()
             nfofile = nfoscraper.get_nfo_path(gamenameFromFile, romCollection.name, romFile)
-            if xbmcvfs.exists(nfofile) and __addon__.getSetting(util.SETTING_RCB_PREFERLOCALNFO).upper() == 'TRUE':
+            prefer_local_nfo = (
+                __addon__.getSetting(util.SETTING_RCB_PREFERLOCALNFO).upper() == 'TRUE'
+                and not isRescrape
+            )
+            if isRescrape and xbmcvfs.exists(nfofile):
+                log.info("Rescrape: ignoring Prefer local NFO; using configured scraper instead.")
+            if xbmcvfs.exists(nfofile) and prefer_local_nfo:
                 log.info("Found local nfo file. Using this to scrape info.")
                 newscraper = nfoscraper
             else:

@@ -54,3 +54,6 @@ class Test_NFOScraper(unittest.TestCase):
         self.assertEqual(len(result['Genre']), 2)
         self.assertIn("Action", result['Genre'])
         self.assertIn("Platform", result['Genre'])
+        self.assertEqual(
+            ["http://thegamesdb.net/banners/boxart/original/front/9580-1.jpg"],
+            result['Filetypeboxfront'])

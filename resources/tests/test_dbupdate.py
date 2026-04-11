@@ -56,6 +56,11 @@ class TestDbUpdate(unittest.TestCase):
                          u"'Super Keirin (スーパー競輪, Super Keirin) is a Japan-exclusive video game",
                          "Expected Unicode string to be handled when adding new search result element")
 
+    def test_resolveParseResult_none_list_element_returns_empty_string(self):
+        dbu = DBUpdate()
+        self.assertEqual(u'', dbu.resolveParseResult({'Game': [None]}, 'Game'))
+        self.assertEqual(u'', dbu.resolveParseResult({'Game': ['']}, 'Game'))
+
     @unittest.skip("Not yet implemented")
     def test_getFilesByWildcard(self):
         dbu = DBUpdate()

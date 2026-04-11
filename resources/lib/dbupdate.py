@@ -512,7 +512,7 @@ class DBUpdate(object):
             game = ''
 
         # if no game name has been scraped we expect that no results have been found
-        if game == '':
+        if not game:
             self.missingDescFile.add_entry(gamename_from_file)
 
             if __addon__.getSetting(util.SETTING_RCB_IGNOREGAMEWITHOUTDESC).upper() == 'TRUE':
@@ -575,7 +575,7 @@ class DBUpdate(object):
         game_row[Game.COL_maxPlayers] = self.resolveParseResult(parseresult, 'Players')
         game_row[Game.COL_rating] = self.resolveParseResult(parseresult, 'Rating')
         game_row[Game.COL_numVotes] = self.resolveParseResult(parseresult, 'Votes')
-        game_row[Game.COL_numVotes] = self.resolveParseResult(parseresult, 'URL')
+        game_row[Game.COL_url] = self.resolveParseResult(parseresult, 'URL')
         game_row[Game.COL_perspective] = self.resolveParseResult(parseresult, 'Perspective')
         game_row[Game.COL_originalTitle] = self.resolveParseResult(parseresult, 'OriginalTitle')
         game_row[Game.COL_alternateTitle] = self.resolveParseResult(parseresult, 'AlternateTitle')
@@ -596,7 +596,7 @@ class DBUpdate(object):
             if gamename != gamename_from_file:
                 self.possibleMismatchFile.add_entry(gamename, gamename_from_file)
 
-            if gamename == "":
+            if not gamename:
                 gamename = gamename_from_file
         else:
             gamename = gamename_from_file
@@ -934,11 +934,16 @@ class DBUpdate(object):
 
         try:
             resultValue = result[itemName][0]
-            if (isinstance(resultValue, str)):
+            if resultValue is None:
+                resultValue = u''
+            elif isinstance(resultValue, str):
                 resultValue = resultValue.strip()
                 resultValue = util.convertToUnicodeString(resultValue)
+            else:
+                resultValue = u''
         except Exception as exc:
             log.warn(u"Error while resolving item: %s: %s" % (itemName, exc))
+            resultValue = u''
 
         try:
             log.debug(u"Result %s = %s" % (itemName, resultValue))

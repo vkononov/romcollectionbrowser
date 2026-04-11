@@ -67,6 +67,7 @@ class NFO_Scraper(FileScraper):
         'Version': 'version',
         'Rating': 'rating',
         'Votes': 'votes',
+        'URL': 'detailUrl',
         'IsFavorite': 'isFavorite',
         'LaunchCount': 'launchCount'
     }
@@ -103,20 +104,34 @@ class NFO_Scraper(FileScraper):
 
         # Standard fields
         for k, v in self._game_mapping.items():
-            # HACK - This is only used to retain backwards compatibility with existing scraper, where each key value was a
-            # list, even if only one value is in that list
-            try:
-                result[k] = [game.find(v).text]
-            # FIXME TODO When we remove the hack, this will be the code to use:
-            # result[k] = game.find(v).text
-            except Exception:
-                # Typically this result doesn't have this field
+            # HACK - retain backwards compatibility: each value is a single-element list
+            elem = game.find(v)
+            if elem is None:
                 log.debug("Unable to extract data from key {0}".format(k))
+                continue
+            val = elem.text
+            result[k] = ['' if val is None else val]
 
         # Custom fields
         result['Genre'] = self._parse_genres(game)
+        self._parse_thumbs(game, result)
 
         return result
+
+    def _parse_thumbs(self, game, result):
+        """Map <thumb type="boxfront">http://...</thumb> to Filetype* keys for artwork download."""
+        if game is None:
+            return
+
+        for thumb in game.findall('thumb'):
+            ttype = thumb.get('type')
+            if not ttype:
+                continue
+            url = thumb.text
+            if not url or not url.strip():
+                continue
+            key = 'Filetype' + ttype.strip()
+            result[key] = [url.strip()]
 
     def _parse_genres(self, game):
         # <genre>...</genre><genre>...</genre>

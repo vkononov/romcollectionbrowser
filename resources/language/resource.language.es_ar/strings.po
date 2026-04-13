@@ -709,8 +709,8 @@ msgid "Prefer local nfo file if available"
 msgstr "Preferir info local si está disponible"
 
 msgctxt "#32330"
-msgid "Use clearlogo as list title"
-msgstr "Usar clearlogo como título de lista"
+msgid "Use clearlogo instead of game title"
+msgstr "Usar clearlogo en lugar del título del juego"
 
 msgctxt "#32331"
 msgid "Show scrollbar in game lists"

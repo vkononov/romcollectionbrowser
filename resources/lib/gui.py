@@ -520,6 +520,7 @@ class UIGameDB(xbmcgui.WindowXML):
 
         elif controlId == CONTROL_BUTTON_OPEN_ADDON_SETTINGS:
             self.Settings.openSettings()
+            self.set_skin_flags()
 
 
 

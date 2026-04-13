@@ -148,7 +148,7 @@
 					<textcolor>$INFO[Skin.String(rcb_text_heading)]</textcolor>
 					<align>center</align>
 					<label>[B]$INFO[ListItem.Label][/B]</label>
-					<visible>Control.IsVisible(50) + String.IsEmpty(ListItem.Art(clearlogo))</visible>
+					<visible>Control.IsVisible(50) + [String.IsEmpty(ListItem.Art(clearlogo)) | !Skin.HasSetting(rcb_useClearlogoAsTitle)]</visible>
 					<animation effect="fade" start="0" end="100" time="0" delay="300" easing="out">Visible</animation>
 				</control>
 				<control type="image">
@@ -160,7 +160,7 @@
 					<bordersize>2</bordersize>
 					<texture background="true">$INFO[ListItem.Art(clearlogo)]</texture>
 					<fadetime>100</fadetime>
-					<visible>Control.IsVisible(50)</visible>
+					<visible>Control.IsVisible(50) + !String.IsEmpty(ListItem.Art(clearlogo)) + Skin.HasSetting(rcb_useClearlogoAsTitle)</visible>
 				</control>
 				<control type="label">
 					<posx>20</posx>
@@ -682,7 +682,7 @@
 						<textcolor>$INFO[Skin.String(rcb_text_heading)]</textcolor>
 						<align>center</align>
 						<label>[B]$INFO[ListItem.Label][/B]</label>
-						<visible>String.IsEmpty(ListItem.Art(clearlogo))</visible>
+						<visible>String.IsEmpty(ListItem.Art(clearlogo)) | !Skin.HasSetting(rcb_useClearlogoAsTitle)</visible>
 						<animation effect="fade" start="0" end="100" time="0" delay="300" easing="out">Visible</animation>
 					</control>
 						<!-- Note: comments below are needed for skin convert scripts -->
@@ -695,7 +695,7 @@
 						<bordersize>2</bordersize>
 						<texture background="true">$INFO[ListItem.Art(clearlogo)]</texture>
 						<fadetime>100</fadetime>
-						<visible>!String.IsEmpty(ListItem.Art(clearlogo))</visible>
+						<visible>!String.IsEmpty(ListItem.Art(clearlogo)) + Skin.HasSetting(rcb_useClearlogoAsTitle)</visible>
 					</control>
 					<!-- gameinfobig -->
 					<control type="image" id="2001">

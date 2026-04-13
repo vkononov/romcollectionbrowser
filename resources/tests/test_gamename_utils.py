@@ -93,6 +93,10 @@ class TestGamenameUtils(unittest.TestCase):
         result = gnu.prepare_gamename_for_searchrequest(
             "Nickelodeon\uFF1A Aaahh!!! Real Monsters")
         self.assertEqual(result, "Nickelodeon: Aaahh!!! Real Monsters")
+        # Slash in catalog → " : " on disk; second colon may be filename-safe ꞉ (→ ':').
+        result = gnu.prepare_gamename_for_searchrequest(
+            "Spider-Man : Venom\uA789 Maximum Carnage")
+        self.assertEqual(result, "Spider-Man / Venom: Maximum Carnage")
 
 
     def test_strip_addinfo_from_name(self):

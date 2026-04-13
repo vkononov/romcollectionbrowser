@@ -64,6 +64,9 @@ class GameNameUtil(object):
             return gamename
         gamename = self.normalize_unicode_nfc(gamename)
         gamename = gamename.translate(_COLON_SUBSTITUTE_FOR_SEARCH)
+        # '/' is invalid in many filenames; rips often use " : " between titles. MobyGames
+        # and similar catalogs use a real slash (e.g. "Spider-Man / Venom: ...").
+        gamename = re.sub(r'\s+:\s+', ' / ', gamename)
         return self.strip_addinfo_from_name(gamename)
 
     def strip_subtitle_from_name(self, gamename):

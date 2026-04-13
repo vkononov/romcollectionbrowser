@@ -411,58 +411,58 @@ class TestImportGames(unittest.TestCase):
         Note: As responses does not check for url params the order of the responses.add-statements is important.
         """
         responses.add(responses.GET,
-                      'https://api.thegamesdb.net/v1/Developers?apikey=1e821bf1bab06854840650d77e7e2248f49583821ff9191f2cced47e43bf0a73',
+                      'https://api.thegamesdb.net/v1/Developers?apikey=TgdbUnitTestApiKey012345678901234567890123456789012345678901234567890',
                       body=self.loadXmlFromFile('thegamesdb_Developers.json'),
                       status=200)
 
         responses.add(responses.GET,
-                      'https://api.thegamesdb.net/v1/Publishers?apikey=1e821bf1bab06854840650d77e7e2248f49583821ff9191f2cced47e43bf0a73',
+                      'https://api.thegamesdb.net/v1/Publishers?apikey=TgdbUnitTestApiKey012345678901234567890123456789012345678901234567890',
                       body=self.loadXmlFromFile('thegamesdb_Publishers.json'),
                       status=200)
 
         responses.add(responses.GET,
-                      'https://api.thegamesdb.net/v1/Genres?apikey=1e821bf1bab06854840650d77e7e2248f49583821ff9191f2cced47e43bf0a73',
+                      'https://api.thegamesdb.net/v1/Genres?apikey=TgdbUnitTestApiKey012345678901234567890123456789012345678901234567890',
                       body=self.loadXmlFromFile('thegamesdb_Genres.json'),
                       status=200)
 
     def register_responses_Amiga(self):
         responses.add(responses.GET,
-                      'https://api.thegamesdb.net/v1/Games/ByGameName?filter%5Bplatform%5D=4911&apikey=1e821bf1bab06854840650d77e7e2248f49583821ff9191f2cced47e43bf0a73&include=boxart&name=Airborne+Ranger&fields=id%2Cgame_title%2Crelease_date%2Cdevelopers%2Cpublishers%2Cplayers%2Cgenres%2Coverview%2Crating',
+                      'https://api.thegamesdb.net/v1/Games/ByGameName?filter%5Bplatform%5D=4911&apikey=TgdbUnitTestApiKey012345678901234567890123456789012345678901234567890&include=boxart&name=Airborne+Ranger&fields=id%2Cgame_title%2Crelease_date%2Cdevelopers%2Cpublishers%2Cplayers%2Cgenres%2Coverview%2Crating',
                       body=self.loadXmlFromFile('thegamesdb_Amiga_Airborne Ranger_search.json'),
                       status=200)
 
         responses.add(responses.GET,
-                      'https://api.thegamesdb.net/v1/Games/Images?apikey=1e821bf1bab06854840650d77e7e2248f49583821ff9191f2cced47e43bf0a73&games_id=24471',
+                      'https://api.thegamesdb.net/v1/Games/Images?apikey=TgdbUnitTestApiKey012345678901234567890123456789012345678901234567890&games_id=24471',
                       body=self.loadXmlFromFile('thegamesdb_Amiga_Airborne Ranger_images.json'),
                       status=200)
 
         responses.add(responses.GET,
-                      'https://api.thegamesdb.net/v1/Games/ByGameName?filter%5Bplatform%5D=4911&apikey=1e821bf1bab06854840650d77e7e2248f49583821ff9191f2cced47e43bf0a73&include=boxart&name=Chuck+Rock&fields=id%2Cgame_title%2Crelease_date%2Cdevelopers%2Cpublishers%2Cplayers%2Cgenres%2Coverview%2Crating',
+                      'https://api.thegamesdb.net/v1/Games/ByGameName?filter%5Bplatform%5D=4911&apikey=TgdbUnitTestApiKey012345678901234567890123456789012345678901234567890&include=boxart&name=Chuck+Rock&fields=id%2Cgame_title%2Crelease_date%2Cdevelopers%2Cpublishers%2Cplayers%2Cgenres%2Coverview%2Crating',
                       body=self.loadXmlFromFile('thegamesdb_Amiga_Chuck Rock_search.json'),
                       status=200)
 
         responses.add(responses.GET,
-                      'https://api.thegamesdb.net/v1/Games/Images?apikey=1e821bf1bab06854840650d77e7e2248f49583821ff9191f2cced47e43bf0a73&games_id=35508',
+                      'https://api.thegamesdb.net/v1/Games/Images?apikey=TgdbUnitTestApiKey012345678901234567890123456789012345678901234567890&games_id=35508',
                       body=self.loadXmlFromFile('thegamesdb_Amiga_Chuck Rock_images.json'),
                       status=200)
 
         responses.add(responses.GET,
-                      'https://api.thegamesdb.net/v1/Games/ByGameName?filter%5Bplatform%5D=4911&apikey=1e821bf1bab06854840650d77e7e2248f49583821ff9191f2cced47e43bf0a73&include=boxart&name=Eliminator&fields=id%2Cgame_title%2Crelease_date%2Cdevelopers%2Cpublishers%2Cplayers%2Cgenres%2Coverview%2Crating',
+                      'https://api.thegamesdb.net/v1/Games/ByGameName?filter%5Bplatform%5D=4911&apikey=TgdbUnitTestApiKey012345678901234567890123456789012345678901234567890&include=boxart&name=Eliminator&fields=id%2Cgame_title%2Crelease_date%2Cdevelopers%2Cpublishers%2Cplayers%2Cgenres%2Coverview%2Crating',
                       body=self.loadXmlFromFile('thegamesdb_Amiga_Eliminator_search.json'),
                       status=200)
 
         responses.add(responses.GET,
-                      'https://api.thegamesdb.net/v1/Games/Images?apikey=1e821bf1bab06854840650d77e7e2248f49583821ff9191f2cced47e43bf0a73&games_id=35508',
+                      'https://api.thegamesdb.net/v1/Games/Images?apikey=TgdbUnitTestApiKey012345678901234567890123456789012345678901234567890&games_id=35508',
                       body=self.loadXmlFromFile('thegamesdb_Amiga_Eliminator_images.json'),
                       status=200)
 
         responses.add(responses.GET,
-                      'https://api.thegamesdb.net/v1/Games/ByGameName?filter%5Bplatform%5D=4911&apikey=1e821bf1bab06854840650d77e7e2248f49583821ff9191f2cced47e43bf0a73&include=boxart&name=MicroProse+Formula+One+Grand+Prix&fields=id%2Cgame_title%2Crelease_date%2Cdevelopers%2Cpublishers%2Cplayers%2Cgenres%2Coverview%2Crating',
+                      'https://api.thegamesdb.net/v1/Games/ByGameName?filter%5Bplatform%5D=4911&apikey=TgdbUnitTestApiKey012345678901234567890123456789012345678901234567890&include=boxart&name=MicroProse+Formula+One+Grand+Prix&fields=id%2Cgame_title%2Crelease_date%2Cdevelopers%2Cpublishers%2Cplayers%2Cgenres%2Coverview%2Crating',
                       body=self.loadXmlFromFile('thegamesdb_Amiga_Formula One Grand Prix_search.json'),
                       status=200)
 
         responses.add(responses.GET,
-                      'https://api.thegamesdb.net/v1/Games/Images?apikey=1e821bf1bab06854840650d77e7e2248f49583821ff9191f2cced47e43bf0a73&games_id=43812',
+                      'https://api.thegamesdb.net/v1/Games/Images?apikey=TgdbUnitTestApiKey012345678901234567890123456789012345678901234567890&games_id=43812',
                       body=self.loadXmlFromFile('thegamesdb_Amiga_Formula One Grand Prix_images.json'),
                       status=200)
 
@@ -506,54 +506,54 @@ class TestImportGames(unittest.TestCase):
     """
     def register_responses_N64(self):
         responses.add(responses.GET,
-                      'https://api.thegamesdb.net/v1/Games/ByGameName?filter%5Bplatform%5D=3&apikey=1e821bf1bab06854840650d77e7e2248f49583821ff9191f2cced47e43bf0a73&include=boxart&name=1080%C2%B0+Snowboarding&fields=id%2Cgame_title%2Crelease_date%2Cdevelopers%2Cpublishers%2Cplayers%2Cgenres%2Coverview%2Crating',
+                      'https://api.thegamesdb.net/v1/Games/ByGameName?filter%5Bplatform%5D=3&apikey=TgdbUnitTestApiKey012345678901234567890123456789012345678901234567890&include=boxart&name=1080%C2%B0+Snowboarding&fields=id%2Cgame_title%2Crelease_date%2Cdevelopers%2Cpublishers%2Cplayers%2Cgenres%2Coverview%2Crating',
                       body=self.loadXmlFromFile('thegamesdb_N64_1080 Snowboarding_search.json'),
                       status=200)
 
         responses.add(responses.GET,
-                      'https://api.thegamesdb.net/v1/Games/Images?apikey=1e821bf1bab06854840650d77e7e2248f49583821ff9191f2cced47e43bf0a73&games_id=237',
+                      'https://api.thegamesdb.net/v1/Games/Images?apikey=TgdbUnitTestApiKey012345678901234567890123456789012345678901234567890&games_id=237',
                       body=self.loadXmlFromFile('thegamesdb_N64_1080 Snowboarding_images.json'),
                       status=200)
 
     def register_responses_PSX(self):
         responses.add(responses.GET,
-                      'https://api.thegamesdb.net/v1/Games/ByGameName?filter%5Bplatform%5D=10&apikey=1e821bf1bab06854840650d77e7e2248f49583821ff9191f2cced47e43bf0a73&include=boxart&name=Bushido+Blade&fields=id%2Cgame_title%2Crelease_date%2Cdevelopers%2Cpublishers%2Cplayers%2Cgenres%2Coverview%2Crating',
+                      'https://api.thegamesdb.net/v1/Games/ByGameName?filter%5Bplatform%5D=10&apikey=TgdbUnitTestApiKey012345678901234567890123456789012345678901234567890&include=boxart&name=Bushido+Blade&fields=id%2Cgame_title%2Crelease_date%2Cdevelopers%2Cpublishers%2Cplayers%2Cgenres%2Coverview%2Crating',
                       body=self.loadXmlFromFile('thegamesdb_PSX_Bushido Blade_search.json'),
                       status=200)
 
         responses.add(responses.GET,
-                      'https://api.thegamesdb.net/v1/Games/Images?apikey=1e821bf1bab06854840650d77e7e2248f49583821ff9191f2cced47e43bf0a73&games_id=8375',
+                      'https://api.thegamesdb.net/v1/Games/Images?apikey=TgdbUnitTestApiKey012345678901234567890123456789012345678901234567890&games_id=8375',
                       body=self.loadXmlFromFile('thegamesdb_PSX_Bushido Blade_images.json'),
                       status=200)
 
         responses.add(responses.GET,
-                      'https://api.thegamesdb.net/v1/Games/ByGameName?filter%5Bplatform%5D=10&apikey=1e821bf1bab06854840650d77e7e2248f49583821ff9191f2cced47e43bf0a73&include=boxart&name=Silent+Hill&fields=id%2Cgame_title%2Crelease_date%2Cdevelopers%2Cpublishers%2Cplayers%2Cgenres%2Coverview%2Crating',
+                      'https://api.thegamesdb.net/v1/Games/ByGameName?filter%5Bplatform%5D=10&apikey=TgdbUnitTestApiKey012345678901234567890123456789012345678901234567890&include=boxart&name=Silent+Hill&fields=id%2Cgame_title%2Crelease_date%2Cdevelopers%2Cpublishers%2Cplayers%2Cgenres%2Coverview%2Crating',
                       body=self.loadXmlFromFile('thegamesdb_PSX_Silent Hill_search.json'),
                       status=200)
 
         responses.add(responses.GET,
-                      'https://api.thegamesdb.net/v1/Games/Images?apikey=1e821bf1bab06854840650d77e7e2248f49583821ff9191f2cced47e43bf0a73&games_id=1014',
+                      'https://api.thegamesdb.net/v1/Games/Images?apikey=TgdbUnitTestApiKey012345678901234567890123456789012345678901234567890&games_id=1014',
                       body=self.loadXmlFromFile('thegamesdb_PSX_Silent Hill_images.json'),
                       status=200)
 
     def register_responses_SNES(self):
         responses.add(responses.GET,
-                      'https://api.thegamesdb.net/v1/Games/ByGameName?filter%5Bplatform%5D=6&apikey=1e821bf1bab06854840650d77e7e2248f49583821ff9191f2cced47e43bf0a73&include=boxart&name=Chrono+Trigger&fields=id%2Cgame_title%2Crelease_date%2Cdevelopers%2Cpublishers%2Cplayers%2Cgenres%2Coverview%2Crating',
+                      'https://api.thegamesdb.net/v1/Games/ByGameName?filter%5Bplatform%5D=6&apikey=TgdbUnitTestApiKey012345678901234567890123456789012345678901234567890&include=boxart&name=Chrono+Trigger&fields=id%2Cgame_title%2Crelease_date%2Cdevelopers%2Cpublishers%2Cplayers%2Cgenres%2Coverview%2Crating',
                       body=self.loadXmlFromFile('thegamesdb_SNES_Chrono Trigger_search.json'),
                       status=200)
 
         responses.add(responses.GET,
-                      'https://api.thegamesdb.net/v1/Games/Images?apikey=1e821bf1bab06854840650d77e7e2248f49583821ff9191f2cced47e43bf0a73&games_id=1255',
+                      'https://api.thegamesdb.net/v1/Games/Images?apikey=TgdbUnitTestApiKey012345678901234567890123456789012345678901234567890&games_id=1255',
                       body=self.loadXmlFromFile('thegamesdb_SNES_Chrono Trigger_images.json'),
                       status=200)
 
         responses.add(responses.GET,
-                      'https://api.thegamesdb.net/v1/Games/ByGameName?filter%5Bplatform%5D=6&apikey=1e821bf1bab06854840650d77e7e2248f49583821ff9191f2cced47e43bf0a73&include=boxart&name=Madden+NFL&fields=id%2Cgame_title%2Crelease_date%2Cdevelopers%2Cpublishers%2Cplayers%2Cgenres%2Coverview%2Crating',
+                      'https://api.thegamesdb.net/v1/Games/ByGameName?filter%5Bplatform%5D=6&apikey=TgdbUnitTestApiKey012345678901234567890123456789012345678901234567890&include=boxart&name=Madden+NFL&fields=id%2Cgame_title%2Crelease_date%2Cdevelopers%2Cpublishers%2Cplayers%2Cgenres%2Coverview%2Crating',
                       body=self.loadXmlFromFile('thegamesdb_SNES_Madden NFL 97_search.json'),
                       status=200)
 
         responses.add(responses.GET,
-                      'https://api.thegamesdb.net/v1/Games/Images?apikey=1e821bf1bab06854840650d77e7e2248f49583821ff9191f2cced47e43bf0a73&games_id=291',
+                      'https://api.thegamesdb.net/v1/Games/Images?apikey=TgdbUnitTestApiKey012345678901234567890123456789012345678901234567890&games_id=291',
                       body=self.loadXmlFromFile('thegamesdb_SNES_Madden NFL 97_images.json'),
                       status=200)
 

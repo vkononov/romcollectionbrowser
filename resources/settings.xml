@@ -49,4 +49,13 @@
 		<setting id="rcb_disableScreensaver" label="32211" type="bool" default="false" />
 	</category>
 
+	<category label="32435">
+		<setting type="lsep" label="32436"/>
+		<setting label="32437" type="text" id="rcb_apikey_mobygames" default="" option="hidden"/>
+		<setting type="lsep" label="32438"/>
+		<setting label="32439" type="text" id="rcb_apikey_thegamesdb" default="" option="hidden"/>
+		<setting type="lsep" label="32440"/>
+		<setting label="32441" type="text" id="rcb_apikey_giantbomb" default="" option="hidden"/>
+	</category>
+
 </settings>

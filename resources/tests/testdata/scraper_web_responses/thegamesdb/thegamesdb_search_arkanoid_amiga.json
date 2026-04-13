@@ -40,7 +40,7 @@
 		}]
 	},
 	"pages": {
-		"current": "https://api.thegamesdb.net/Games/ByGameName?filter%5Bplatform%5D=4911&apikey=1e821bf1bab06854840650d77e7e2248f49583821ff9191f2cced47e43bf0a73&include=boxart&name=Arkanoid&fields=id%2Cgame_title%2Crelease_date%2Cdevelopers%2Cpublishers%2Cplayers%2Cgenres%2Coverview%2Crating&page=1",
+		"current": "https://api.thegamesdb.net/Games/ByGameName?filter%5Bplatform%5D=4911&apikey=TgdbUnitTestApiKey012345678901234567890123456789012345678901234567890&include=boxart&name=Arkanoid&fields=id%2Cgame_title%2Crelease_date%2Cdevelopers%2Cpublishers%2Cplayers%2Cgenres%2Coverview%2Crating&page=1",
 		"next": null,
 		"previous": null
 	}

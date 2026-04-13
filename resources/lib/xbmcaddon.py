@@ -13,6 +13,7 @@ __platform__ = 'ALL'
 __version__ = '2.20.0'
 
 
+# Scraper API placeholders for unit tests only (non-secret; must match mocked URLs in resources/tests).
 _settings = {'rcb_logLevel': 2,
             'rcb_enableFullReimport': 'true',
             'rcb_overwriteWithNullvalues': 'false',
@@ -20,7 +21,10 @@ _settings = {'rcb_logLevel': 2,
             'rcb_ignoreGamesWithoutArtwork': 'false',
             'rcb_PreferNfoFileIfAvailable': 'false',
             'rcb_scrapingMode': 'Automatic: Accurate',
-            'rcb_escapeEmulatorCommand': 'false'}
+            'rcb_escapeEmulatorCommand': 'false',
+            'rcb_apikey_mobygames': 'MobyUnitTestApiKey001',
+            'rcb_apikey_thegamesdb': 'TgdbUnitTestApiKey012345678901234567890123456789012345678901234567890',
+            'rcb_apikey_giantbomb': 'GbUnitTestApiKey01234567890123456789012'}
 
 
 class Addon(object):
@@ -67,9 +71,7 @@ class Addon(object):
             apikey = self.Addon.getSetting('apikey')
         """
         global _settings
-        if id in _settings:
-            return _settings[id]
-
+        return _settings.get(id, '')
 
     def setSetting(self, id, value):
         """Sets a script setting.
@@ -81,7 +83,8 @@ class Addon(object):
 
             self.Settings.setSetting(id='username', value='teamxbmc')
         """
-        pass
+        global _settings
+        _settings[id] = value
 
     def openSettings(self):
         """Opens this scripts settings dialog."""
@@ -107,3 +110,6 @@ class Addon(object):
             path = os.path.join(basepath, "..\..")
             print('path = ' + str(path))
             return path
+        if id == 'version':
+            return '0.0.0-test'
+        return ''

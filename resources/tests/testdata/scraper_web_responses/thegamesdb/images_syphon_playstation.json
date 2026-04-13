@@ -38,7 +38,7 @@
 		}
 	},
 	"pages": {
-		"current": "https://api.thegamesdb.net/Games/Images?apikey=1e821bf1bab06854840650d77e7e2248f49583821ff9191f2cced47e43bf0a73&games_id=7808&page=1",
+		"current": "https://api.thegamesdb.net/Games/Images?apikey=TgdbUnitTestApiKey012345678901234567890123456789012345678901234567890&games_id=7808&page=1",
 		"next": null,
 		"previous": null
 	}

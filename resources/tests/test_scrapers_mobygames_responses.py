@@ -22,7 +22,7 @@ class Test_MobygamesScraperResponses(unittest.TestCase):
     @responses.activate
     def test_search_game(self):
         responses.add(responses.GET,
-                      'https://api.mobygames.com/v1/games?platform=6&format=brief&api_key=FH9VxTkB6BGAEsF3qlnnxQ%3D%3D&title=WipEout',
+                      'https://api.mobygames.com/v1/games?title=WipEout+XL&api_key=MobyUnitTestApiKey001&platform=6&format=brief',
                       json=self._loadJsonFromFile('mobygames_getgameslist.json'),
                       status=200)
 
@@ -35,25 +35,25 @@ class Test_MobygamesScraperResponses(unittest.TestCase):
     def test_retrieve_game(self):
         # first call gets general game data
         responses.add(responses.GET,
-                      'https://api.mobygames.com/v1/games/33250?api_key=FH9VxTkB6BGAEsF3qlnnxQ%3D%3D',
+                      'https://api.mobygames.com/v1/games/33250?api_key=MobyUnitTestApiKey001',
                       json=self._loadJsonFromFile('mobygames_getgame.json'),
                       status=200)
 
         # second call gets platform specific release data
         responses.add(responses.GET,
-                      'https://api.mobygames.com/v1/games/33250/platforms/6?api_key=FH9VxTkB6BGAEsF3qlnnxQ%3D%3D',
+                      'https://api.mobygames.com/v1/games/33250/platforms/6?api_key=MobyUnitTestApiKey001',
                       json=self._loadJsonFromFile('mobygames_getrelease_missingelements.json'),
                       status=200)
 
         # third call gets platform specific covers
         responses.add(responses.GET,
-                      'https://api.mobygames.com/v1/games/33250/platforms/6/covers?api_key=FH9VxTkB6BGAEsF3qlnnxQ%3D%3D',
+                      'https://api.mobygames.com/v1/games/33250/platforms/6/covers?api_key=MobyUnitTestApiKey001',
                       json=self._loadJsonFromFile('mobygames_getcovers.json'),
                       status=200)
 
         # fourth call gets platform specific screenshots
         responses.add(responses.GET,
-                      'https://api.mobygames.com/v1/games/33250/platforms/6/screenshots?api_key=FH9VxTkB6BGAEsF3qlnnxQ%3D%3D',
+                      'https://api.mobygames.com/v1/games/33250/platforms/6/screenshots?api_key=MobyUnitTestApiKey001',
                       json=self._loadJsonFromFile('mobygames_getscreenshots.json'),
                       status=200)
 
@@ -77,7 +77,7 @@ class Test_MobygamesScraperResponses(unittest.TestCase):
     @responses.activate
     def test_search_game_api_key_exceeded(self):
         responses.add(responses.GET,
-                      'https://api.mobygames.com/v1/games?platform=6&format=brief&api_key=FH9VxTkB6BGAEsF3qlnnxQ%3D%3D&title=WipEout',
+                      'https://api.mobygames.com/v1/games?title=WipEout+XL&api_key=MobyUnitTestApiKey001&platform=6&format=brief',
                       json=self._loadJsonFromFile('mobygames_error_apikey_exceeded.json'),
                       status=429)
 

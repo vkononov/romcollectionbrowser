@@ -23,7 +23,7 @@ class Test_GiantBombScraperResponses(unittest.TestCase):
     def test_search_release(self):                
         
         responses.add(responses.GET,
-                'https://www.giantbomb.com/api/releases?filter=platform%3A22%2Cname%3AWip&api_key=279442d60999f92c5e5f693b4d23bd3b6fd8e868&field_list=id%2Cguid%2Cname%2Crelease_date&format=json',
+                'https://www.giantbomb.com/api/releases?filter=platform%3A22%2Cname%3AWip3out&api_key=GbUnitTestApiKey01234567890123456789012&field_list=id%2Cguid%2Cname%2Crelease_date&format=json',
                 json=self._loadJsonFromFile('giantbomb_getreleaselist.json'), 
                 status=200)
         
@@ -38,12 +38,12 @@ class Test_GiantBombScraperResponses(unittest.TestCase):
     def test_retrieve_release(self):                
         
         responses.add(responses.GET, 
-                'https://www.giantbomb.com/api/release/3050-80827/?api_key=279442d60999f92c5e5f693b4d23bd3b6fd8e868&format=json',
+                'https://www.giantbomb.com/api/release/3050-80827/?api_key=GbUnitTestApiKey01234567890123456789012&format=json',
                 json=self._loadJsonFromFile('giantbomb_getrelease.json'), 
                 status=200)
         
         responses.add(responses.GET, 
-                'https://www.giantbomb.com/api/game/12298/?api_key=279442d60999f92c5e5f693b4d23bd3b6fd8e868&format=json',
+                'https://www.giantbomb.com/api/game/12298/?api_key=GbUnitTestApiKey01234567890123456789012&format=json',
                 json=self._loadJsonFromFile('giantbomb_getgame.json'), 
                 status=200)
         

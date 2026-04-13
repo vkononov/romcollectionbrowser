@@ -9,3 +9,4 @@ resources/tests/script.games.rom.collection.browser
 .pydevproject
 .settings
 *.log
+.deps/

@@ -84,12 +84,38 @@ SETTING_RCB_COLORFILE = 'rcb_colorfile'
 SETTING_RCB_SHOWNAVIGATIONHINT = 'rcb_showNavigationHint'
 SETTING_RCB_PLOT_STRIP_HTML = 'rcb_plotStripHtml'
 SETTING_RCB_IGNORE_ARTICLES_WHEN_SORTING = 'rcb_ignoreArticlesWhenSorting'
+SETTING_RCB_APIKEY_MOBYGAMES = 'rcb_apikey_mobygames'
+SETTING_RCB_APIKEY_THEGAMESDB = 'rcb_apikey_thegamesdb'
+SETTING_RCB_APIKEY_GIANTBOMB = 'rcb_apikey_giantbomb'
 
 SCRAPING_OPTION_AUTO_ACCURATE = 0
 SCRAPING_OPTION_INTERACTIVE = 1
 
 SCRAPING_OPTION_AUTO_ACCURATE_TXT = 'Automatic: Accurate'
 SCRAPING_OPTION_INTERACTIVE_TXT = 'Interactive: Select Matches'
+
+
+def _get_api_key_setting(setting_id):
+    """Read a setting with a fresh Addon() each time so values apply immediately
+    after the user saves addon settings (module-level __addon__ caches old keys)."""
+    try:
+        v = getSettings().getSetting(setting_id)
+        return (v or '').strip()
+    except Exception:
+        return ''
+
+
+def get_mobygames_api_key():
+    return _get_api_key_setting(SETTING_RCB_APIKEY_MOBYGAMES)
+
+
+def get_thegamesdb_api_key():
+    return _get_api_key_setting(SETTING_RCB_APIKEY_THEGAMESDB)
+
+
+def get_giantbomb_api_key():
+    return _get_api_key_setting(SETTING_RCB_APIKEY_GIANTBOMB)
+
 
 #
 # UI #

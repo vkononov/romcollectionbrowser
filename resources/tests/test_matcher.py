@@ -59,6 +59,17 @@ class TestMatcher(unittest.TestCase):
         x = m.getBestResults(results, gamename)
         self.assertEquals(x.get('SearchKey')[0], 'FIFA 98')
 
+    def test_getBestResultsMobyStyleEditionSuffix(self):
+        """ROM name without catalog suffix (e.g. ? (Enhanced)) should still match."""
+        results = [{'SearchKey': ['Where in the World is Carmen Sandiego? (Enhanced)']}]
+        gamename = 'Where in the World is Carmen Sandiego'
+
+        m = Matcher()
+        x = m.getBestResults(results, gamename)
+        self.assertEqual(
+            x.get('SearchKey')[0],
+            'Where in the World is Carmen Sandiego? (Enhanced)')
+
 
 if __name__ == "__main__":
     unittest.main()

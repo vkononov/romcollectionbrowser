@@ -101,6 +101,9 @@ class Matcher(object):
                 searchKey = self.resolveParseResult(result, 'SearchKey')
                 # keep it for later reference
                 searchkey_orig = gnu.normalize_unicode_nfc(searchKey)
+                # Catalog titles often add "(Enhanced)", region, etc.; filenames usually omit
+                # those suffixes. Strip the same way as ROM names before comparing.
+                searchkey_base = gnu.strip_addinfo_from_name(searchkey_orig).strip()
                 gamename_orig = gamename_from_file_nfc
 
                 # if no searchkey is specified first result is valid (1 file per game scenario)
@@ -115,7 +118,7 @@ class Matcher(object):
 
                 # normalize name and searchkey before comparison
                 gamename_normalized = gnu.normalize_name(gamename_orig)
-                searchkey_normalized = gnu.normalize_name(searchkey_orig)
+                searchkey_normalized = gnu.normalize_name(searchkey_base)
                 log.info("Try normalized names. Comparing %s with %s" % (gamename_normalized, searchkey_normalized))
                 if gamename_normalized == searchkey_normalized:
                     # perfect match

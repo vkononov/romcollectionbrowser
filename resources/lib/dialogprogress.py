@@ -1,6 +1,8 @@
 from builtins import object
 import xbmcgui
 
+from util import Logutil as log, SCRIPTNAME
+
 
 class ProgressDialogGUI(object):
 
@@ -23,3 +25,9 @@ class ProgressDialogGUI(object):
                 return True
         else:
             self.dialog.close()
+
+    def showScrapeErrorTransient(self, message):
+        try:
+            xbmcgui.Dialog().notification(SCRIPTNAME, message[:220], xbmcgui.NOTIFICATION_WARNING, 7000, False)
+        except Exception as exc:
+            log.warn('showScrapeErrorTransient: %s' % exc)

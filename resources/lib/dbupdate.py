@@ -96,6 +96,31 @@ class DBUpdate(object):
     _guiDict = {}  # Dict for logging to screen
     _gui = None  # Only retained for displaying message dialog
 
+    @staticmethod
+    def _format_scrape_error_message(exc, scraper_site):
+        name = scraper_site.name if scraper_site else 'Scraper'
+        try:
+            msg = '%s: %s' % (name, exc)
+        except Exception:
+            msg = name
+        if len(msg) > 220:
+            msg = msg[:217] + '...'
+        return msg
+
+    def _notify_scrape_error_transient(self, message):
+        if not message:
+            return
+        gui = self._gui
+        if gui is None:
+            return
+        show = getattr(gui, 'showScrapeErrorTransient', None)
+        if not callable(show):
+            return
+        try:
+            show(message)
+        except Exception as ex:
+            log.warn('Could not show scrape error notification: %s' % ex)
+
     def __init__(self):
         log.info("init DBUpdate")
 
@@ -213,8 +238,10 @@ class DBUpdate(object):
 
                     foldername = self.getFoldernameFromRomFilename(filename)
 
-                    results, artScrapers = self.useSingleScrapers(romCollection, filename, gamenameFromFile,
+                    results, artScrapers, scrape_error = self.useSingleScrapers(romCollection, filename, gamenameFromFile,
                                                                   progDialogRCHeader, fileidx + 1, isRescrape)
+                    if scrape_error:
+                        self._notify_scrape_error_transient(scrape_error)
 
                     if len(results) == 0:
                         # lastgamename = ""
@@ -400,7 +427,11 @@ class DBUpdate(object):
             isRescrape: If True (Rescrape game / selection), ignore Prefer local NFO and use configured scrapers.
 
         Returns:
-            dict for the game result:
+            (gameresult dict, artScrapers dict, scrape_error or None).
+            scrape_error is set only for transport/API failures (exceptions, HTTP errors, API error payloads).
+            It is None when the scraper ran but returned no usable match (empty search, matcher miss).
+
+            gameresult example:
                 {'SearchKey': ['Chrono Trigger'],
                  'Publisher': ['Squaresoft'],
                  'Description': ["The millennium. A portal is opened. The chain of time is broken...],
@@ -432,6 +463,10 @@ class DBUpdate(object):
         if not scraperSite:
             if len(romCollection.scraperSites) >= 1:
                 scraperSite = romCollection.scraperSites[0]
+
+        if scraperSite is None:
+            log.error("No scraper sites configured for rom collection")
+            return gameresult, artScrapers, util.localize(32956)
 
         try:
             #first check if a local nfo file is available
@@ -466,16 +501,16 @@ class DBUpdate(object):
         except Exception as e:
             log.error("Error searching for %s using scraper %s - %s %s" % (
                 gamenameFromFile, scraperSite.name, type(e), e))
-            return gameresult, artScrapers
+            return gameresult, artScrapers, self._format_scrape_error_message(e, scraperSite)
 
         if results == []:
             log.warn("No search results found for %s using scraper %s" % (gamenameFromFile, scraperSite.name))
-            return gameresult, artScrapers
+            return gameresult, artScrapers, None
 
         matched = Matcher().getBestResults(results, gamenameFromFile)
         if matched is None:
             log.error("No matches found for %s, skipping" % gamenameFromFile)
-            return gameresult, artScrapers
+            return gameresult, artScrapers, None
         log.debug("After matching: %s" % matched)
 
         try:
@@ -484,7 +519,7 @@ class DBUpdate(object):
         except Exception as e:
             # FIXME TODO Catch exceptions specifically
             log.error("Error retrieving %s - %s %s" % (matched['id'], type(e), e))
-            return gameresult, artScrapers
+            return gameresult, artScrapers, self._format_scrape_error_message(e, scraperSite)
 
         # Update the gameresult with any new fields
         gameresult = self.addNewElements(gameresult, retrievedresult)
@@ -500,7 +535,7 @@ class DBUpdate(object):
                         artScrapers[thumbKey] = scraperSite.name
 
         log.debug(u"After scraping, result = %s, artscrapers = %s" % (gameresult, artScrapers))
-        return gameresult, artScrapers
+        return gameresult, artScrapers, None
 
     def insertGameFromDesc(self, gamedescription, gamename_from_file, romCollection, romfiles, foldername, isUpdate, gameId):
 

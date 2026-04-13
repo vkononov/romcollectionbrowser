@@ -34,6 +34,11 @@ class ScraperUnexpectedContentException(Error):
     pass
 
 
+class ScraperApiReportedError(Error):
+    """Raised when the remote API returns an explicit error in a successful HTTP response (e.g. invalid key)."""
+    pass
+
+
 class ScraperUnexpectedError(Error):
     """Raised when an unexpected error occurs that doesn't match any of the other exceptions"""
     pass

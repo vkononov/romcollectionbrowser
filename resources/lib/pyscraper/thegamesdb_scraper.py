@@ -1,6 +1,7 @@
 import sys
 import xml.etree.ElementTree as ET
 from web_scraper import WebScraper
+from rcbexceptions import ScraperApiReportedError, ScraperUnexpectedContentException
 from util import Logutil as log, get_thegamesdb_api_key
 from gamename_utils import GameNameUtil
 
@@ -97,17 +98,25 @@ class TheGamesDB_Scraper(WebScraper):
         """
         results = []
 
-        code = response['code']
-        status = response['status']
+        try:
+            code = response['code']
+            status = response['status']
+        except (KeyError, TypeError):
+            raise ScraperUnexpectedContentException("Unexpected response from TheGamesDB")
 
         if code != 200 or status != "Success":
             log.error("thegamesdb returned an error. Code = %s, Status = %s" %(code, status))
-            return results
+            raise ScraperApiReportedError("TheGamesDB API error %s: %s" % (code, status))
 
-        data = response['data']
+        try:
+            data = response['data']
+            games = data['games']
+        except (KeyError, TypeError):
+            raise ScraperUnexpectedContentException("Unexpected response from TheGamesDB")
+
         self.resultdata = {}
 
-        for result in data['games']:
+        for result in games:
             results.append({'id': result['id'],
                             'title': result['game_title'],
                             'releaseDate': result['release_date'],

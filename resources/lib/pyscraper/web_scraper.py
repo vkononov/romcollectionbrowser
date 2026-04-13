@@ -198,12 +198,12 @@ class WebScraper(AbstractScraper):
 
     def open_json_url(self, **kwargs):
         log.info('Retrieving url %s, params = %s' %(kwargs['url'], kwargs['params']))
-        
+
         try:
             r = requests.get(kwargs['url'], headers=self._headers, params=kwargs['params'])
-        except ValueError:
-            # Typically non-JSON response
-            raise ScraperUnexpectedContentException("Non-JSON response received")
+        except requests.exceptions.RequestException as e:
+            log.error("HTTP request failed: %s" % e)
+            raise ScraperUnexpectedError(str(e))
 
         log.debug(u"Retrieving {0} as JSON - HTTP{1}".format(r.url, r.status_code))
 
@@ -217,7 +217,13 @@ class WebScraper(AbstractScraper):
         if r.status_code == 500:
             raise ScraperWebsiteUnavailableException("Website unavailable")
 
-        return r.json()
+        if r.status_code != 200:
+            raise ScraperUnexpectedError("HTTP %s" % r.status_code)
+
+        try:
+            return r.json()
+        except ValueError:
+            raise ScraperUnexpectedContentException("Invalid JSON in response")
 
     def open_xml_url(self, **kwargs):
         log.info('Retrieving url %s, params = %s' %(kwargs['url'], kwargs['params']))

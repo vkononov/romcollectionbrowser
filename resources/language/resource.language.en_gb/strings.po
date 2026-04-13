@@ -1216,6 +1216,10 @@ msgctxt "#32955"
 msgid "Scan Artwork for Game"
 msgstr ""
 
+msgctxt "#32956"
+msgid "No scraper is configured for this rom collection."
+msgstr ""
+
 msgctxt "#32999"
 msgid "Rom Collection Browser"
 msgstr ""

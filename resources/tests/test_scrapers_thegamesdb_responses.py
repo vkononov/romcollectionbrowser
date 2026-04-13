@@ -8,6 +8,7 @@ import unittest
 import json
 import responses
 from thegamesdb_scraper import TheGamesDB_Scraper
+from rcbexceptions import ScraperApiReportedError
 
 
 class Test_GamesDBScraper(unittest.TestCase):
@@ -233,6 +234,18 @@ class Test_GamesDBScraper(unittest.TestCase):
         result = scraper.retrieve('7808', 'PlayStation')
 
         self.assertEqual(u"989", result['Publisher'][0], "Expected publisher with numeric name to be a string")
+
+    @responses.activate
+    def test_search_api_reported_error_raises(self):
+        """HTTP 200 with API-level failure must not be treated as an empty title match."""
+        responses.add(responses.GET,
+                      'https://api.thegamesdb.net/v1/Games/ByGameName?filter%5Bplatform%5D=10&apikey=TgdbUnitTestApiKey012345678901234567890123456789012345678901234567890&include=boxart&name=Tekken&fields=id%2Cgame_title%2Crelease_date%2Cdevelopers%2Cpublishers%2Cplayers%2Cgenres%2Coverview%2Crating',
+                      json={'code': 401, 'status': 'This route requires a valid API key', 'data': {}},
+                      status=200)
+
+        scraper = TheGamesDB_Scraper()
+        with self.assertRaises(ScraperApiReportedError):
+            scraper.search('Tekken', 'PlayStation')
 
     # Parse if no entries found for game search
     @responses.activate

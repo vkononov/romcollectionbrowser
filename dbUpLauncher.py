@@ -69,6 +69,12 @@ class ProgressDialogBk(xbmcgui.DialogProgressBG):
 
         return True
 
+    def showScrapeErrorTransient(self, message):
+        try:
+            xbmcgui.Dialog().notification(util.SCRIPTNAME, message[:220], xbmcgui.NOTIFICATION_WARNING, 7000, False)
+        except Exception:
+            pass
+
 
 def runUpdate():
     xbmc.log('RCB: runUpdate')
